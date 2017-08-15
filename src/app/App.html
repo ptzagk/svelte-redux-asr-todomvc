@@ -1,0 +1,25 @@
+<Header ref:header/>
+<MainSection todos={{todos}} ref:main />
+
+<script>
+    import Header from './components/Header.html'
+    import MainSection from './components/MainSection.html'
+    import { ADD_TODO, DELETE_TODO, EDIT_TODO, COMPLETE_TODO, COMPLETE_ALL, CLEAR_COMPLETED } from '../store/constants/ActionTypes'
+
+    export default {
+        components: {
+            Header,
+            MainSection
+        },
+
+        oncreate () {
+            this.refs.header.on(ADD_TODO, text => this.fire(ADD_TODO, text))
+
+            this.refs.main.on(COMPLETE_ALL, () => this.fire(COMPLETE_ALL))
+            this.refs.main.on(CLEAR_COMPLETED, () => this.fire(CLEAR_COMPLETED))
+            this.refs.main.on(COMPLETE_TODO, (id) => this.fire(COMPLETE_TODO, id))
+            this.refs.main.on(EDIT_TODO, (todo) => this.fire(EDIT_TODO, todo))
+            this.refs.main.on(DELETE_TODO, (id) => this.fire(DELETE_TODO, id))
+        }
+    }
+</script>

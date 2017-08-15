@@ -1,0 +1,84 @@
+<section class="main">
+    {{#if todos.length > 0}}
+        <input class="toggle-all"
+            type="checkbox"
+            checked={{ completedCount === todos.length }} />
+        <label on:click="handleCompleteAll()" />
+    {{/if}}
+
+    <ul class="todo-list">
+        {{#each filteredTodos as todo}}
+            <TodoItem todo={{todo}} on:complete="completeTodo(event)" on:save="saveTodo(event)" on:delete="deleteTodo(event)" />
+        {{/each}}
+    </ul>
+
+    <Footer completedCount={{completedCount}}
+        activeCount={{ todos.length - completedCount }}
+        selectedFilter={{filter}}
+        on:clearcompleted="handleClearCompleted(event)"
+        on:show="handleShow(event)" />
+</section>
+
+<script>
+    import Footer from './Footer.html'
+    import TodoItem from './TodoItem.html'
+    import { COMPLETE_ALL, COMPLETE_TODO, CLEAR_COMPLETED, EDIT_TODO, DELETE_TODO } from '../../store/constants/ActionTypes'
+    import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../../store/constants/TodoFilters'
+
+    export default {
+        components: {
+            Footer,
+            TodoItem
+        },
+
+        data () {
+            return {
+                filter: SHOW_ALL,
+                todos: []
+            }
+        },
+
+        computed: {
+            filteredTodos: (todos, filter) => {
+                switch(filter) {
+                    case SHOW_ALL:
+                        return todos
+
+                    case SHOW_COMPLETED:
+                        return todos.filter(t => t.completed)
+
+                    case SHOW_ACTIVE:
+                        return todos.filter(t => !t.completed)
+                }
+            },
+
+            completedCount: (todos) => todos.reduce((count, todo) => todo.completed ? count + 1 : count, 0)
+        },
+
+        methods: {
+            handleCompleteAll () {
+                this.fire(COMPLETE_ALL)
+            },
+
+            completeTodo (id) {
+                this.fire(COMPLETE_TODO, id)
+            },
+
+            saveTodo ({ id, text }) {
+                this.fire(EDIT_TODO, { id, text })
+            },
+
+            deleteTodo (id) {
+                this.fire(DELETE_TODO, id)
+            },
+
+            handleClearCompleted () {
+                this.fire(CLEAR_COMPLETED)
+            },
+
+            handleShow (filter) {
+                this.set({ filter })
+            }
+        }
+    }
+</script>
