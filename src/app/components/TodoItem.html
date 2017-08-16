@@ -6,7 +6,7 @@
         <div class="view">
             <input class="toggle"
                 type="checkbox"
-                checked={{todo.checked}}
+                checked={{todo.completed}}
                 on:change="onCompleteTodo(todo.id)" />
             <label on:click="onClick()">
                 {{ todo.text }}
