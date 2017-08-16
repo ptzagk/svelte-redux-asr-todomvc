@@ -16,7 +16,7 @@ export default {
   plugins: [
     resolveAliases({
       aliases: {
-        'store': './src/store.js'
+        'store': './src/store/index.js'
       },
       jsnext: true
     }),

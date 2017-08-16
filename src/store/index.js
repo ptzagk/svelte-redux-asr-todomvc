@@ -1,6 +1,6 @@
 import { createStore } from 'redux'
-import reducer from './store/reducers'
-import * as actions from './store/actions'
+import reducer from './reducers'
+import * as actions from './actions'
 
 export function addTodo(text) {
     store.dispatch(actions.addTodo(text))
