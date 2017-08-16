@@ -27,9 +27,12 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-resolve-aliases": "^0.2.0",
     "rollup-plugin-svelte": "^3.1.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-visualizer": "^0.3.1",
     "rollup-watch": "^4.3.1",
     "svelte-cli": "^1.4.0",
     "svelte-state-renderer": "^1.2.2",
-    "todomvc-app-css": "^2.1.0"
+    "todomvc-app-css": "^2.1.0",
+    "uglify-es": "^3.0.27"
   }
 }
