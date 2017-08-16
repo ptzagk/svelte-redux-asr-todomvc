@@ -1,11 +1,11 @@
 <header class="header">
     <h1>todos</h1>
-    <TodoTextInput newTodo=true on:save="handleSave(event)" placeholder="What needs to be done?" />
+    <TodoTextInput newTodo=true on:save="onSave(event)" placeholder="What needs to be done?" />
 </header>
 
 <script>
     import TodoTextInput from './TodoTextInput.html'
-    import { ADD_TODO } from '../../store/constants/ActionTypes'
+    import { addTodo } from 'store'
 
     export default {
         components: {
@@ -13,8 +13,8 @@
         },
 
         methods: {
-            handleSave (text) {
-                this.fire(ADD_TODO, text)
+            onSave (text) {
+                addTodo(text)
             }
         }
     }

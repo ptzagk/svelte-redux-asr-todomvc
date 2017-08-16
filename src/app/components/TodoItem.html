@@ -1,18 +1,18 @@
 <li class="{{ classnames({ completed: todo.completed, editing: editing }) }}">
 
     {{#if editing}}
-        <TodoTextInput text={{todo.text}} editing={{editing}} on:save="handleSave(todo.id, event)" on:blur="set({ editing: false })" />
+        <TodoTextInput text={{todo.text}} editing={{editing}} on:save="onSave(todo.id, event)" on:blur="set({ editing: false })" />
     {{else}}
         <div class="view">
             <input class="toggle"
                 type="checkbox"
                 checked={{todo.checked}}
-                on:change="completeTodo(todo.id)" />
-            <label on:click="handleClick()">
+                on:change="onCompleteTodo(todo.id)" />
+            <label on:click="onClick()">
                 {{ todo.text }}
             </label>
             <button class="destroy"
-                on:click="deleteTodo(todo.id)" />
+                on:click="onDeleteTodo(todo.id)" />
         </div>
     {{/if}}
 
@@ -21,7 +21,7 @@
 <script>
     import TodoTextInput from './TodoTextInput.html'
     import classnames from 'classnames'
-    import { EDIT_TODO } from '../../store/constants/ActionTypes'
+    import { completeTodo, deleteTodo, editTodo } from 'store'
 
     export default {
         components: {
@@ -43,26 +43,26 @@
         },
 
         methods: {
-            handleClick () {
+            onClick () {
                 this.set({ editing: true })
             },
 
-            handleSave (id, text) {
+            onSave (id, text) {
                 if (text.length === 0) {
                     this.deleteTodo(id)
                 } else {
-                    this.fire('save', { id, text })
+                    editTodo(id, text)
                 }
 
                 this.set({ editing: false })
             },
 
-            deleteTodo (id) {
-                this.fire('delete', id)
+            onDeleteTodo (id) {
+                deleteTodo(id)
             },
 
-            completeTodo (id) {
-                this.fire('complete', id)
+            onCompleteTodo (id) {
+                completeTodo(id)
             }
         }
     }

@@ -3,27 +3,26 @@
         <input class="toggle-all"
             type="checkbox"
             checked={{ completedCount === todos.length }} />
-        <label on:click="handleCompleteAll()" />
+        <label on:click="onCompleteAll()" />
     {{/if}}
 
     <ul class="todo-list">
         {{#each filteredTodos as todo}}
-            <TodoItem todo={{todo}} on:complete="completeTodo(event)" on:save="saveTodo(event)" on:delete="deleteTodo(event)" />
+            <TodoItem todo={{todo}} />
         {{/each}}
     </ul>
 
     <Footer completedCount={{completedCount}}
         activeCount={{ todos.length - completedCount }}
         selectedFilter={{filter}}
-        on:clearcompleted="handleClearCompleted(event)"
-        on:show="handleShow(event)" />
+        on:show="onShow(event)" />
 </section>
 
 <script>
     import Footer from './Footer.html'
     import TodoItem from './TodoItem.html'
-    import { COMPLETE_ALL, COMPLETE_TODO, CLEAR_COMPLETED, EDIT_TODO, DELETE_TODO } from '../../store/constants/ActionTypes'
     import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../../store/constants/TodoFilters'
+    import { completeAll } from 'store'
 
     export default {
         components: {
@@ -56,27 +55,11 @@
         },
 
         methods: {
-            handleCompleteAll () {
-                this.fire(COMPLETE_ALL)
+            onCompleteAll() {
+                completeAll()
             },
 
-            completeTodo (id) {
-                this.fire(COMPLETE_TODO, id)
-            },
-
-            saveTodo ({ id, text }) {
-                this.fire(EDIT_TODO, { id, text })
-            },
-
-            deleteTodo (id) {
-                this.fire(DELETE_TODO, id)
-            },
-
-            handleClearCompleted () {
-                this.fire(CLEAR_COMPLETED)
-            },
-
-            handleShow (filter) {
+            onShow (filter) {
                 this.set({ filter })
             }
         }
